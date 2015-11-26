@@ -1,0 +1,105 @@
+kturtle-script-v1.0
+@(learn) Ptp {
+  @(pd)
+  @(fw) 0
+  @(pu)
+}
+@(learn) linePaintX {
+  @(if) $y1 < $y2 {
+    @(repeat) $deltaX {
+      Ptp
+      $y = ($x-$x1)*($y2-$y1)/($x2-$x1)+$y1
+      @(if) ($y-$ybrez)>1 {
+         $ybrez = $y
+      }
+      @(go) $x@(,)$ybrez
+      @(if) $x1 < $x2 {
+        $x = $x+1
+      }
+      @(if) $x1 > $x2 {
+        $x = $x-1
+      Ptp
+      }
+    }
+  }
+  @(if) $y1 > $y2 {
+    @(repeat) $deltaX {
+      Ptp
+      $y = ($x-$x1)*($y2-$y1)/($x2-$x1)+$y1
+      @(if) ($ybrez-$y)>1 {
+        $ybrez = $y
+      }
+      @(go) $x@(,)$ybrez
+      @(if) $x1 < $x2 {
+        $x = $x+1
+      }
+      @(if) $x1 > $x2 {
+        $x = $x-1
+      }
+      Ptp
+    }
+  }
+}
+@(learn) linePaintY {
+   @(if) $x1 < $x2 {
+     @(repeat) $deltaY {
+       Ptp
+       $x = ($y-$y1)*($x2-$x1)/($y2-$y1)+$x1
+       @(if) ($x-$xbrez)>1 {
+         $xbrez = $x
+       }
+       @(go) $xbrez@(,)$y
+       @(if) $y1 < $y2 {
+         $y = $y+1
+       }
+       @(if) $y1 > $y2 {
+         $y = $y-1
+       }
+       Ptp
+    }
+  }
+  @(if) $x1 > $x2 {
+    @(repeat) $deltaY {
+      Ptp
+      $x = ($y-$y1)*($x2-$x1)/($y2-$y1)+$x1
+      @(if) ($xbrez-$x)>1 {
+        $xbrez = $x
+      }
+      @(go) $xbrez@(,)$y
+      @(if) $y1 < $y2 {
+        $y = $y+1
+      }
+      @(if) $y1 > $y2 {
+        $y = $y-1
+      }
+      Ptp
+    }
+  }
+}
+@(reset)
+@(canvassize) 500@(,) 500
+@(canvascolor) 100@(,)100@(,)100
+@(pencolor) 200@(,)200@(,)200
+$x1 = @(ask) "print x1?"
+$y1 = @(ask) "print y1?"
+$x2 = @(ask) "print x2?"
+$y2 = @(ask) "print y2?"
+$x = $x1
+$y = $y1
+$xbrez = $x1
+$ybrez = $y1
+ $deltaX = $x2-$x1
+  @(if) $deltaX < 0 {
+    $deltaX = $deltaX*(-1)
+  }
+$deltaY = $y2-$y1
+  @(if) $deltaY < 0 {
+    $deltaY = $deltaY*(-1)
+  } 
+@(go) $x1@(,)$x2
+@(if) $deltaX > $deltaY {
+  linePaintX
+}
+@(if) $deltaY > $deltaX {
+linePaintY
+}
